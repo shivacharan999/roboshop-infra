@@ -63,10 +63,6 @@ resource "aws_security_group" "sg" {
   }
 }
 
-output "sg_id" {
-
-    value = aws_security_group.allow_tls.id
-}
 
 resource "aws_route53_record" "record" {
   zone_id = "Z050249122YGPFCQEASIN"
