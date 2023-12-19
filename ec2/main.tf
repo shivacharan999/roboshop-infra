@@ -75,7 +75,6 @@ resource "aws_route53_record" "record" {
 
 variable "component" {}
 variable "instance_type" {}
-variable "password" {}
 
 variable "env" {
     default = "dev"
