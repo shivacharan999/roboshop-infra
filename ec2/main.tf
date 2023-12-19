@@ -28,9 +28,10 @@ resource "null_resource" "provisioner" {
         }
 
         inline = [
-           "ansible-pull -i localhost, -U https://github.com/shivacharan999/roboshop-ansible.git roboshop.yml -e role_mame=${var.component}"
+           "ansible-pull -i localhost, -U https://github.com/shivacharan999/roboshop-ansible roboshop.yml -e role_mame=${var.component}"
         ]
-}
+
+  }
 
 }
 
