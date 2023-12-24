@@ -1,7 +1,7 @@
 instances = {
     frontend = {
             name = "frontend"
-            type = "t2.small"
+            type = "t3.small"
         }
 
 }
