@@ -1,11 +1,3 @@
-data "aws_ami" "ami" {
-  most_recent = true  
-  name_regex   = "devops-practice-ansible"
-  owners = ["290972336566"] 
-  
-}
-
-
 
 
 resource "aws_instance" "ec2" {
@@ -72,13 +64,65 @@ resource "aws_route53_record" "record" {
 }
 
 
+resource "aws_iam_policy" "ssm-policy" {
+  name        = "${var.env}-${var.component}-ssm"
+  path        = "/"
+  description = "${var.env}-${var.component}-ssm"
 
-
-variable "component" {}
-variable "instance_type" {}
-
-variable "env" {
-    default = "dev"
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParameterHistory",
+                "ssm:DescribeDocumentParameters",
+                "ssm:GetParametersByPath",
+                "ssm:GetParameters",
+                "ssm:GetParameter"
+            ],
+            "Resource": "arn:aws:ssm:us-east-1:290972336566:parameter/dev.frontend*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": "ssm:DescribeParameters",
+            "Resource": "*"
+        }
+    ]
+  })
 }
+
+
+resource "aws_iam_role" "role" {
+  name = "${var.env}-${var.component}-role"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  assume_role_policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "ec2.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+})
+
+resource "aws_iam_instance_profile" "profile" {
+  name = "${var.env}-${var.component}-role"
+  role = aws_iam_role.role.name
+}
+
+
+resource "aws_iam_role_policy_attachment" "policy-attach" {
+  role       = aws_iam_role.role.name
+  policy_arn = aws_iam_policy.ssm-policy.arn
+}
+
 
 
