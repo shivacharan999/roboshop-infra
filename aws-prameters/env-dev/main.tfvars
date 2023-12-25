@@ -17,6 +17,6 @@ parameters = [
     { name : "dev.catalogue.mongo", value = "true", type : "String" },
     { name : "dev.catalogue.mongo_url", value = "mongodb://mongodb-dev.devsig90.online:27017/users", type : "String" },
     { name : "dev.cart.redis_host", value = "redis-dev.devsig90.online", type : "String" },
-    { name : "dev.cart.catalogue_host", value = catalogue-dev.devsig90.online", type : "String" },
+    { name : "dev.cart.catalogue_host", value = "catalogue-dev.devsig90.online", type : "String" },
     { name : "dev.cart.catalogue_port", value = "8080", type : "String" }
  ]
